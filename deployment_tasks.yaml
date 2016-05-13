@@ -4,13 +4,14 @@
 - id: fuel-plugin-django-app_role
   type: group
   role: [fuel-plugin-django-app_role]
+  tasks: [hiera, globals]
   parameters:
     strategy:
       type: parallel
 
 - id: fuel-plugin-django-app-deployment-puppet
   type: puppet
-  role: [fuel-plugin-django-app_role]
+  groups: [fuel-plugin-django-app_role]
   requires: [deploy_start]
   required_for: [deploy_end]
 
