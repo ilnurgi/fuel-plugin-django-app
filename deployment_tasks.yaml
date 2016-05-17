@@ -1,52 +1,34 @@
-# These tasks will be merged into deployment graph. Here you
-# can specify new tasks for any roles, even built-in ones.
-
 - id: fuel-plugin-django-app_role
   type: group
   role: [fuel-plugin-django-app_role]
-  tasks: [hiera, globals]
+  tasks: [hiera, globals] 
   parameters:
     strategy:
       type: parallel
 
-- id: fuel-plugin-django-app-deployment-puppet
+- id: fuel-plugin-django-app_postgres
   type: puppet
   groups: [fuel-plugin-django-app_role]
-  requires: [deploy_start]
-  required_for: [deploy_end]
+  requires: [hiera, globals]
+  parameters:      
+    puppet_manifest: "postgres.pp"
+    puppet_modules: "/etc/puppet/modules/"
+    timeout: 1800
 
-
-#  version: 2.0.0              # tasks v2.0.0 is supporting task-based deployment
-#   cross-depends:
-#     - name: deploy_start
-#   cross-depended-by:
-#     - name: deploy_end
-
+- id: fuel-plugin-django-app_create-env
+  type: puppet  
+  groups: [fuel-plugin-django-app_role]
+  requires: [fuel-plugin-django-app_postgres]
   parameters:
-    puppet_manifest: "deploy.pp"
+    puppet_manifest: "create_env.pp"
     puppet_modules: "."
     timeout: 3600
 
-#- id: fuel-plugin-django-app-post-deployment-sh
-#  version: 2.0.0
-#  type: shell
-#  role: [fuel-plugin-django-app_role]
-#  requires: [post_deployment_start]
-#  required_for: [post_deployment_end]
-#  parameters:
-#    cmd: echo post_deployment_task_executed > /tmp/post_deployment
-#    retries: 3
-#    interval: 20
-#    timeout: 180
-
-#- id: fuel-plugin-django-app-pre-deployment-sh
-#  version: 2.0.0
-#  type: shell
-#  role: [fuel-plugin-django-app_role]
-#  requires: [pre_deployment_start]
-#  required_for: [pre_deployment_end]
-#  parameters:
-#    cmd: echo pre_deployment_task_executed > /tmp/pre_deployment
-#    retries: 3
-#    interval: 20
-#    timeout: 180
+- id: fuel-plugin-django-app_deploy-app
+  type: puppet  
+  groups: [fuel-plugin-django-app_role]
+  requires: [fuel-plugin-django-app_create-env]
+  parameters:
+    puppet_manifest: "deploy_django_app.pp"
+    puppet_modules: "."
+    timeout: 3600

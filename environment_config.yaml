@@ -1,11 +1,41 @@
 attributes:
   metadata:
-    # Settings group can be one of "general", "security", "compute", "network",
-    # "storage", "logging", "openstack_services" and "other".
     group: 'other'
-  fuel-plugin-django-app_text:
-    value: 'Set default value'
-    label: 'Text field'
-    description: 'Description for text field'
+  django_db_engine: 
+    type: 'radio'
     weight: 25
-    type: "text"
+    label: 'db engine'
+    value: 'django.db.backends.postgresql_psycopg2'
+    values:
+        - data: 'django.db.backends.postgresql_psycopg2'
+          label: 'django.db.backends.postgresql_psycopg2'
+
+  django_db_name:
+    value: 'website'
+    label: 'Имя БД'
+    type: 'text'
+    weight: 25
+
+  django_db_user_name:
+    value: 'website'
+    label: 'Пользователь БД'
+    type: 'text'
+    weight: 25
+
+  django_db_user_password:
+    value: 'website'
+    label: 'Пароль пользователя БД'
+    type: 'text'
+    weight: 25
+
+  django_db_host:
+    value: '127.0.0.1'
+    label: 'Адрес БД'
+    type: 'text'
+    weight: 25
+
+  django_db_port:  
+    value: '5432'
+    label: 'Порт БД'
+    type: 'text'
+    weight: 25
