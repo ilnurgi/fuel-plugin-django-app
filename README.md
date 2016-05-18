@@ -13,4 +13,7 @@ fuel-plugin-django-app
 
 На данный момент умеет:
 
-* создает файлик `/tmp/fuel-plugin-django-app.txt`, с содержимым `fuel-plugin-django-app`
+* ставит БД postgres
+* создает БД и роли в postgres по настройкм из fuel-web
+* создает django приложение на ноде
+* создает python окружение для проекта

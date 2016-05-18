@@ -39,7 +39,7 @@ file {
 file {
     "${blog_path}create_superuser.py":
         ensure  => present,
-        content => template("${blog_path}create_superuser.py.rb")
+        content => template("${plugin_source_dir}blog/create_superuser.py.rb")
 }
 
 exec {
