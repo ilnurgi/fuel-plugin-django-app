@@ -5,7 +5,7 @@ title: Title for fuel-plugin-django-app plugin
 # Plugin version
 # изменим версию, только последнюю цифру, это позволит нам обновить существующий плагин
 # если изменить любу другую цифру, это будет считаться новой версией, и придется передеплоить весь стек
-version: '1.0.2'
+version: '1.0.9'
 # Description
 description: Please describe your plugin here
 # Required fuel version

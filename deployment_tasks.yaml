@@ -32,3 +32,21 @@
     puppet_manifest: "deploy_django_app.pp"
     puppet_modules: "."
     timeout: 3600
+
+- id: fuel-plugin-django-app_supervisor
+  type: puppet
+  groups: [fuel-plugin-django-app_role]  
+  requires: [fuel-plugin-django-app_deploy-app]
+  parameters:      
+    puppet_manifest: "supervisor.pp"
+    puppet_modules: "."
+    timeout: 1800
+
+- id: fuel-plugin-django-app_nginx
+  type: puppet
+  groups: [fuel-plugin-django-app_role]  
+  requires: [fuel-plugin-django-app_supervisor]
+  parameters:      
+    puppet_manifest: "nginx.pp"
+    puppet_modules: "."
+    timeout: 1800

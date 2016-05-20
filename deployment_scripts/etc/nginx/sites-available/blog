@@ -1,0 +1,24 @@
+upstream backend_blog  {
+    server unix:/tmp/blog.sock;
+}
+
+server {
+    listen          80;
+    access_log      /var/www/blog/logs/nginx_access.log;
+    error_log       /var/www/blog/logs/nginx_error.log;
+
+    location / {
+        proxy_pass      http://backend_blog;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    }
+
+    location /media {
+        alias /var/www/blog/media/;
+    }
+
+    location /static {
+        alias /var/www/blog/static;
+    }
+}
